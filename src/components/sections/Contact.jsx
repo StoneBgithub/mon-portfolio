@@ -1,7 +1,7 @@
-// components/sections/Contact.jsx
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 const Contact = () => {
+  const formRef = useRef(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -10,27 +10,55 @@ const Contact = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError(null);
 
-    // Simuler un envoi
-    setTimeout(() => {
+    try {
+      // Utilisation de EmailJS ou un service similaire pour l'envoi d'email
+      // Vous devrez configurer EmailJS ou un autre service dans votre projet
+      const response = await fetch(
+        "https://formsubmit.co/abedapipi@gmail.com",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            message: formData.message,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        setIsSubmitted(true);
+        setFormData({ name: "", email: "", message: "" });
+
+        // Réinitialiser après 3 secondes
+        setTimeout(() => {
+          setIsSubmitted(false);
+        }, 3000);
+      } else {
+        throw new Error("Échec de l'envoi du message");
+      }
+    } catch (err) {
+      setError(
+        "Une erreur s'est produite lors de l'envoi du message. Veuillez réessayer."
+      );
+    } finally {
       setIsSubmitting(false);
-      setIsSubmitted(true);
-      setFormData({ name: "", email: "", message: "" });
-
-      // Réinitialiser après 3 secondes
-      setTimeout(() => {
-        setIsSubmitted(false);
-      }, 3000);
-    }, 1500);
+    }
   };
 
   return (
@@ -79,7 +107,12 @@ const Contact = () => {
                 </p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
+                {error && (
+                  <div className="bg-red-900/20 border border-red-500/30 rounded-lg p-4 text-red-300 text-sm">
+                    {error}
+                  </div>
+                )}
                 <div>
                   <label
                     htmlFor="name"
@@ -173,6 +206,14 @@ const Contact = () => {
                     "Envoyer le message"
                   )}
                 </button>
+
+                {/* Champ caché pour FormSubmit.co */}
+                <input
+                  type="hidden"
+                  name="_next"
+                  value={window.location.href}
+                />
+                <input type="hidden" name="_captcha" value="false" />
               </form>
             )}
           </div>
@@ -203,10 +244,10 @@ const Contact = () => {
                 <div className="ml-4">
                   <h4 className="text-white font-medium">Email</h4>
                   <a
-                    href="mailto:contact@votredomaine.com"
+                    href="mailto:abedapipi@gmail.com"
                     className="text-gray-400 hover:text-cyan-400 transition-colors"
                   >
-                    contact@votredomaine.com
+                    abedapipi@gmail.com
                   </a>
                 </div>
               </div>
@@ -236,7 +277,7 @@ const Contact = () => {
                 </div>
                 <div className="ml-4">
                   <h4 className="text-white font-medium">Localisation</h4>
-                  <p className="text-gray-400">Paris, France</p>
+                  <p className="text-gray-400">Congo Brazzaville</p>
                 </div>
               </div>
 
@@ -260,7 +301,7 @@ const Contact = () => {
                 <div className="ml-4">
                   <h4 className="text-white font-medium">Disponibilité</h4>
                   <p className="text-gray-400">
-                    Freelance / Remote / Full-time
+                    Freelance / Full-time / Full-remote
                   </p>
                 </div>
               </div>
@@ -270,7 +311,9 @@ const Contact = () => {
               <h4 className="text-white font-medium mb-4">Réseaux sociaux</h4>
               <div className="flex space-x-4">
                 <a
-                  href="#"
+                  href="https://www.linkedin.com/in/abedapipi/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 flex items-center justify-center rounded-lg bg-gray-800 text-gray-400 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-blue-600 hover:text-white transition-all"
                 >
                   <svg
@@ -283,7 +326,9 @@ const Contact = () => {
                   </svg>
                 </a>
                 <a
-                  href="#"
+                  href="https://github.com/StoneBgithub/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 flex items-center justify-center rounded-lg bg-gray-800 text-gray-400 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-blue-600 hover:text-white transition-all"
                 >
                   <svg
@@ -296,7 +341,9 @@ const Contact = () => {
                   </svg>
                 </a>
                 <a
-                  href="#"
+                  href="https://wa.me/242066109390"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 flex items-center justify-center rounded-lg bg-gray-800 text-gray-400 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-blue-600 hover:text-white transition-all"
                 >
                   <svg
@@ -305,20 +352,7 @@ const Contact = () => {
                     viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
-                  </svg>
-                </a>
-                <a
-                  href="#"
-                  className="w-10 h-10 flex items-center justify-center rounded-lg bg-gray-800 text-gray-400 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-blue-600 hover:text-white transition-all"
-                >
-                  <svg
-                    className="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z" />
+                    <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.72.045.428-.1.834zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 1.856.001 3.598.723 4.907 2.034 1.31 1.311 2.031 3.054 2.03 4.908-.001 3.825-3.113 6.938-6.937 6.938z" />
                   </svg>
                 </a>
               </div>
