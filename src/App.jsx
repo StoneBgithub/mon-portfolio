@@ -9,6 +9,7 @@ import Footer from "./components/layout/Footer";
 
 const App = () => {
   const [activeSection, setActiveSection] = useState("hero");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,25 +31,40 @@ const App = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Fermer le menu mobile lorsqu'on clique sur une section
+  const toggleMobileMenu = (isOpen) => {
+    setMobileMenuOpen(isOpen);
+    // Désactiver le défilement du body quand le menu est ouvert
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+  };
+
   return (
-    <div className="bg-black text-white min-h-screen font-sans">
+    <div className="bg-black text-white min-h-screen font-sans overflow-x-hidden">
       <div className="fixed w-full z-50">
-        <Navbar activeSection={activeSection} />
+        <Navbar
+          activeSection={activeSection}
+          mobileMenuOpen={mobileMenuOpen}
+          toggleMobileMenu={toggleMobileMenu}
+        />
       </div>
-      <main>
-        <section id="hero">
+      <main className="relative w-full">
+        <section id="hero" className="w-full">
           <Hero />
         </section>
-        <section id="about">
+        <section id="about" className="w-full">
           <About />
         </section>
-        <section id="skills">
+        <section id="skills" className="w-full">
           <Skills />
         </section>
-        <section id="projects">
+        <section id="projects" className="w-full">
           <Projects />
         </section>
-        <section id="contact">
+        <section id="contact" className="w-full">
           <Contact />
         </section>
       </main>
