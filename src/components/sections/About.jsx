@@ -24,10 +24,20 @@ const About = () => {
               Qui suis-je?
             </h3>
             <p className="text-gray-300 mb-6 leading-relaxed">
-              Je suis un développeur fullstack passionné par la création
-              d'applications web modernes et performantes. Avec une solide
-              expertise en HTML, CSS, JavaScript, ReactJS, NodeJS, Firebase et
-              Git, je conçois des solutions complètes et innovantes.
+              Je suis{" "}
+              <span className="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">
+                APIPI BOUYA Pasteur
+              </span>
+              , développeur fullstack passionné par la création d'applications
+              web modernes et performantes. Avec une solide expertise en{" "}
+              <span className="text-cyan-400 font-medium">HTML</span>,{" "}
+              <span className="text-purple-400 font-medium">CSS</span>,{" "}
+              <span className="text-cyan-400 font-medium">JavaScript</span>,{" "}
+              <span className="text-purple-400 font-medium">ReactJS</span>,{" "}
+              <span className="text-cyan-400 font-medium">NodeJS</span>,{" "}
+              <span className="text-purple-400 font-medium">Firebase</span> et{" "}
+              <span className="text-cyan-400 font-medium">Git</span>, je conçois
+              des solutions complètes et innovantes.
             </p>
             <p className="text-gray-300 mb-8 leading-relaxed">
               Mon approche combine créativité technique et sensibilité UX/UI
