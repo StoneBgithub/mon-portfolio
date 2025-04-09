@@ -36,21 +36,63 @@ const Navbar = ({ activeSection, mobileMenuOpen, toggleMobileMenu }) => {
   return (
     <>
       <nav
-        className={`transition-all duration-500 w-full ${
+        className={`transition-all duration-500 w-full fixed top-0 z-50 ${
           isScrolled
             ? "bg-black/80 backdrop-blur-lg py-2"
             : "bg-transparent py-4"
         }`}
       >
         <div className="container mx-auto px-4 sm:px-6 flex justify-between items-center">
-          <div className="text-xl sm:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-600">
-            <span className="inline-block hover:scale-105 transition-transform">
-              APIPI BOUYA Pasteur
-            </span>
+          {/* Logo Dev original à gauche */}
+          <div className="flex items-center">
+            <div className="relative w-12 h-12 bg-gradient-to-br from-cyan-400 to-purple-600 rounded-lg overflow-hidden shadow-lg transform hover:rotate-6 transition-transform duration-300">
+              <div className="absolute inset-0.5 bg-black rounded-lg flex items-center justify-center">
+                <svg
+                  className="w-8 h-8"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M7 8L3 12L7 16"
+                    stroke="url(#grad1)"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M17 8L21 12L17 16"
+                    stroke="url(#grad1)"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M14 4L10 20"
+                    stroke="url(#grad1)"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <defs>
+                    <linearGradient
+                      id="grad1"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="100%"
+                    >
+                      <stop offset="0%" stopColor="#22d3ee" />
+                      <stop offset="100%" stopColor="#a855f7" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+            </div>
           </div>
 
-          {/* Menu de navigation pour desktop */}
-          <ul className="hidden md:flex space-x-4 lg:space-x-8">
+          {/* Menu de navigation pour desktop (centré) */}
+          <ul className="hidden md:flex space-x-4 lg:space-x-8 absolute left-1/2 transform -translate-x-1/2">
             {navItems.map((item) => (
               <li key={item.id}>
                 <button
@@ -69,6 +111,40 @@ const Navbar = ({ activeSection, mobileMenuOpen, toggleMobileMenu }) => {
               </li>
             ))}
           </ul>
+
+          {/* Bouton CV à droite (design amélioré) */}
+          <div className="hidden md:block">
+            <a
+              href="/CV_APIPI_BOUYA_Pasteur.pdf"
+              download
+              className="relative group flex items-center gap-2 bg-gradient-to-r p-[1px] from-cyan-500 to-purple-600 rounded-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+            >
+              <div className="bg-black px-4 py-2 rounded-lg flex items-center gap-2">
+                <svg
+                  className="w-5 h-5 text-cyan-400 group-hover:animate-bounce"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 4V16M12 16L8 12M12 16L16 12"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M6 20H18"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                <span className="text-white font-medium">CV</span>
+              </div>
+            </a>
+          </div>
 
           {/* Bouton du menu mobile */}
           <div className="md:hidden">
@@ -113,7 +189,7 @@ const Navbar = ({ activeSection, mobileMenuOpen, toggleMobileMenu }) => {
         </div>
       </nav>
 
-      {/* Menu mobile - séparé de la navbar pour s'afficher correctement indépendamment du défilement */}
+      {/* Menu mobile */}
       {mobileMenuOpen && (
         <div className="md:hidden fixed inset-0 bg-black/95 z-40 flex flex-col items-center justify-center overflow-hidden">
           <div className="w-full h-full flex flex-col items-center justify-center">
@@ -136,6 +212,40 @@ const Navbar = ({ activeSection, mobileMenuOpen, toggleMobileMenu }) => {
                 </li>
               ))}
             </ul>
+
+            {/* Bouton CV dans le menu mobile */}
+            <div className="mt-8">
+              <a
+                href="CV_APIPI_BOUYA_Pasteur.pdf"
+                download
+                className="relative group flex items-center gap-2 bg-gradient-to-r p-[1px] from-cyan-500 to-purple-600 rounded-lg hover:shadow-xl transition-all duration-300"
+              >
+                <div className="bg-black px-4 py-2 rounded-lg flex items-center gap-2">
+                  <svg
+                    className="w-5 h-5 text-cyan-400 group-hover:animate-bounce"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 4V16M12 16L8 12M12 16L16 12"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M6 20H18"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  <span className="text-white font-medium">CV</span>
+                </div>
+              </a>
+            </div>
           </div>
         </div>
       )}
